@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml">
+  <div layout:fragment="mainFragment">
+    <div class="container" style="min-height: 500px;">
+      <div class="row mt-3">
+        <div class="col-6 mx-auto">
+          <form th:action="@{'/update'}" th:method="put">
+            <input type="hidden" th:value="${task.getId()}" name="id">
+            <div class="row">
+              <div class="col-12">
+                <label>NAME</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <input type="text" class="form-control" required name="name" th:value="${task.getName()}">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <label>DESCRIPTION</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+               <textarea th:text="${task.getDescription()}" class="form-control" name="desc"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>DEADLINE</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <input th:value="${task.getDeadlineDate()}" type="date" class="form-control" required name="deadline">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>COMPLETED</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <select class="form-control" name="completed">
+                    <option value="true">YES</option>
+                    <option value="false">NO</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <button class="btn btn-success">UPDATE</button>
+              </div>
+            </div>
+          </form>
+          <br>
+          <form th:action="@{'/delete/'+${task.getId()}}" th:method="delete">
+            <button class="btn btn-danger">DELETE</button>
+          </form>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>

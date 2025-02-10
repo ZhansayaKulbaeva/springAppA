@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="mainFragment">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">NAME</th>
+      <th scope="col">DEADLINE DATE</th>
+      <th scope="col">COMPLETED</th>
+      <th scope="col" width="10%">DETAILS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task:${tasks}">
+      <td th:text="${task.getId()}"></td>
+      <td th:text="${task.getName()}"></td>
+      <td th:text="${task.getDeadlineDate()}"></td>
+      <td th:text="${task.isCompleted()}"></td>
+      <td>
+          <a th:href="@{'/details/' + ${task.getId()}}" class="btn btn-success">DETAILS</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

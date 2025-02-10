@@ -1,53 +1,51 @@
 package kz.bitlab.springApp.db;
 
-import kz.bitlab.springApp.model.Student;
+import kz.bitlab.springApp.model.Task;
 
 import java.util.ArrayList;
 
 public class DBManager {
-    private static ArrayList<Student> students = new ArrayList<>();
-    private static Long id = 7L;
+    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static Long id = 3L;
+
     static {
-        students.add(new Student(1L, "Zhansaya", "Kulbayeva", 80));
-        students.add(new Student(2L, "Adilet", "Adikan", 74));
-        students.add(new Student(3L, "Aibanu", "Uatbayeva", 90));
-        students.add(new Student(4L, "Test", "Testova", 65));
-        students.add(new Student(5L, "Test", "Testbekova", 55));
-        students.add(new Student(6L, "Qwerty", "Qwertyievna", 40));
+        tasks.add(new Task(1L, "Task 1", "Task 1 desc", "2025-02-10", true));
+        tasks.add(new Task(2L, "Task 2", "Task 2 desc", "2025-02-11", true));
     }
 
-    public static ArrayList<Student> getStudents() {
-        return students;
+    public static ArrayList<Task> getTasks() {
+        return tasks;
     }
 
-    public static void addStudent(Student student) {
-        student.setId(id);
-        students.add(student);
+    public static void addTask(Task task) {
+        task.setId(id);
+        tasks.add(task);
         id++;
     }
 
-    public static Student getStudentById(Long id) {
-        for (Student student : students) {
-            if (student.getId().equals(id)) {
-                return student;
+    public static Task getTaskById(Long id) {
+        for (Task task : tasks) {
+            if (task.getId().equals(id)) {
+                return task;
             }
         }
         return null;
     }
 
-    public static void deleteById(Long id) {
-        for(int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId().equals(id)) {
-                students.remove(i);
+    public static void deleteTask(Long id){
+        for(int i = 0; i < tasks.size(); i++){
+            if(tasks.get(i).getId().equals(id)){
+                tasks.remove(i);
                 break;
             }
         }
     }
 
-    public static void updateStudent(Student student) {
-        for(int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId().equals(id)) {
-                students.set(i, student);
+    public static void updateTask(Task task) {
+        for(int i = 0; i < tasks.size(); i++){
+            if(tasks.get(i).getId().equals(task.getId())){
+                tasks.set(i, task);
+                break;
             }
         }
     }
