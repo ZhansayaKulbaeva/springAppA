@@ -64,6 +64,18 @@
                 </select>
               </div>
             </div>
+            <div class="row">
+              <div class="col-12">
+                <label>TYPES</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <div th:each="type:${types}">
+                  <input type="checkbox" th:value="${type.getId()}"> <span th:text="${type.getName()}"></span>
+                </div>
+              </div>
+            </div>
             <div class="row mt-3">
               <div class="col-12">
                 <button class="btn btn-success">UPDATE</button>

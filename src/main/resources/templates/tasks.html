@@ -18,6 +18,21 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-12">
+              <label>TYPES</label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <div th:each="type:${types}">
+                <input type="checkbox"
+                       th:value="${type.getId()}"
+                       name="types"> <span th:text="${type.getName()}"></span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-12">
               <label>AUTHOR</label>
             </div>
           </div>
@@ -77,6 +92,7 @@
       <th scope="col">DEADLINE DATE</th>
       <th scope="col">COMPLETED</th>
       <th scope="col">USER</th>
+      <th scope="col">TYPES</th>
       <th scope="col" width="10%">DETAILS</th>
     </tr>
     </thead>
@@ -87,6 +103,11 @@
       <td th:text="${task.getDeadlineDate()}"></td>
       <td th:text="${task.isCompleted() ? 'YES' : 'NO'}"></td>
       <td th:text="${task.getAuthor().getEmail() + ' / ' + task.getAuthor().getFullName()}"></td>
+      <td>
+        <div th:each="type:${task.getTypes()}">
+          <span th:text="${type.getName()}"></span>
+        </div>
+      </td>
       <td>
           <a th:href="@{'/details/' + ${task.getId()}}" class="btn btn-success">DETAILS</a>
       </td>

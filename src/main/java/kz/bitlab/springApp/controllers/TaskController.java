@@ -2,6 +2,7 @@ package kz.bitlab.springApp.controllers;
 
 import kz.bitlab.springApp.db.DBManager;
 import kz.bitlab.springApp.model.Task;
+import kz.bitlab.springApp.model.Type;
 import kz.bitlab.springApp.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-public class HomeController {
+public class TaskController {
 
     @PostMapping(value = "/addTask")
     public String addTask(@RequestParam("name") String name,
                           @RequestParam("desc") String desc,
                           @RequestParam("deadline") String deadline,
-                          @RequestParam("userId") Long userId){
+                          @RequestParam("userId") Long userId,
+                          @RequestParam("types") List<Long> types){
         Task task = new Task();
         task.setName(name);
         task.setDescription(desc);
@@ -31,6 +36,15 @@ public class HomeController {
             task.setAuthor(user);
         }
 
+        List<Type> typesList = new ArrayList<>();
+
+        for (Long typeId : types){
+            Type type = DBManager.getTypeById(typeId);
+            typesList.add(type);
+        }
+
+        task.setTypes(typesList);
+
         DBManager.addTask(task);
         return "redirect:/tasks";
     }
@@ -38,6 +52,7 @@ public class HomeController {
     @GetMapping("/details/{id}")
     public String detailsPage(@PathVariable Long id,
                               Model model) {
+        model.addAttribute("types", DBManager.getTypes());
         model.addAttribute("users", DBManager.getUsers());
         model.addAttribute("task", DBManager.getTaskById(id));
         return "details";
@@ -45,6 +60,7 @@ public class HomeController {
 
     @GetMapping("/tasks")
     public String tasksPage(Model model) {
+        model.addAttribute("types", DBManager.getTypes());
         model.addAttribute("users", DBManager.getUsers());
         model.addAttribute("tasks", DBManager.getTasks());
         return "tasks";
