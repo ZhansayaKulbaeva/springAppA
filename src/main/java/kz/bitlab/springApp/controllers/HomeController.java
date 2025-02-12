@@ -2,26 +2,50 @@ package kz.bitlab.springApp.controllers;
 
 import kz.bitlab.springApp.db.DBManager;
 import kz.bitlab.springApp.model.Task;
+import kz.bitlab.springApp.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
 
+    @PostMapping(value = "/addTask")
+    public String addTask(@RequestParam("name") String name,
+                          @RequestParam("desc") String desc,
+                          @RequestParam("deadline") String deadline,
+                          @RequestParam("userId") Long userId){
+        Task task = new Task();
+        task.setName(name);
+        task.setDescription(desc);
+        task.setDeadlineDate(deadline);
+
+        User user = DBManager.getUserById(userId);
+
+        if (user!=null){
+            task.setAuthor(user);
+        }
+
+        DBManager.addTask(task);
+        return "redirect:/tasks";
+    }
+
     @GetMapping("/details/{id}")
     public String detailsPage(@PathVariable Long id,
                               Model model) {
+        model.addAttribute("users", DBManager.getUsers());
         model.addAttribute("task", DBManager.getTaskById(id));
         return "details";
     }
 
     @GetMapping("/tasks")
     public String tasksPage(Model model) {
+        model.addAttribute("users", DBManager.getUsers());
         model.addAttribute("tasks", DBManager.getTasks());
         return "tasks";
     }
@@ -38,13 +62,18 @@ public class HomeController {
             @RequestParam("name") String name,
             @RequestParam("desc") String desc,
             @RequestParam("deadline") String deadline,
-            @RequestParam("completed") boolean completed
+            @RequestParam("completed") boolean completed,
+            @RequestParam("userId") Long userId
     ){
         Task task = DBManager.getTaskById(id);
         task.setName(name);
         task.setDescription(desc);
         task.setDeadlineDate(deadline);
         task.setCompleted(completed);
+        User user = DBManager.getUserById(userId);
+        if (user!=null) {
+            task.setAuthor(user);
+        }
         DBManager.updateTask(task);
         return "redirect:/details/"+id;
     }

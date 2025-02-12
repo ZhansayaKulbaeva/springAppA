@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="mainFragment">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">FULL NAME</th>
+      <th scope="col">EMAIL</th>
+      <th scope="col" width="10%">DETAILS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user:${users}">
+      <td th:text="${user.getId()}"></td>
+      <td th:text="${user.getFullName()}"></td>
+      <td th:text="${user.getEmail()}"></td>
+      <td>
+        <a href="" class="btn btn-success">DETAILS</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

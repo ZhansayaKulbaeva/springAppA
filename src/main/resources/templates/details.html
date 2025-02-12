@@ -44,8 +44,23 @@
             <div class="row mt-2">
               <div class="col-12">
                 <select class="form-control" name="completed">
-                    <option value="true">YES</option>
-                    <option value="false">NO</option>
+                    <option value="true" th:selected="${task.isCompleted()==true}">YES</option>
+                    <option value="false" th:selected="${task.isCompleted()==false}">NO</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>AUTHOR</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <select class="form-control" name="userId">
+                  <option th:each="user:${users}"
+                          th:text="${user.getFullName()}"
+                          th:value="${user.getId()}"
+                          th:selected="${user.getId()==task.getAuthor().getId()}"></option>
                 </select>
               </div>
             </div>

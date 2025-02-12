@@ -1,6 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="mainFragment">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <strong>+ ADD TASK</strong>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form th:action="@{'/addTask'}" th:method="post">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <label>AUTHOR</label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <select class="form-control" name="userId">
+                <option th:each="user:${users}" th:text="${user.getFullName()}" th:value="${user.getId()}"></option>
+              </select>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-12">
+                <label>NAME</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <input type="text" class="form-control" required name="name">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <label>DESCRIPTION</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <textarea rows="10" cols="8" class="form-control" name="desc"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>DEADLINE</label>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <input type="date" class="form-control" required name="deadline">
+              </div>
+            </div>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br><br>
   <table class="table">
     <thead>
     <tr>
@@ -8,6 +76,7 @@
       <th scope="col">NAME</th>
       <th scope="col">DEADLINE DATE</th>
       <th scope="col">COMPLETED</th>
+      <th scope="col">USER</th>
       <th scope="col" width="10%">DETAILS</th>
     </tr>
     </thead>
@@ -16,7 +85,8 @@
       <td th:text="${task.getId()}"></td>
       <td th:text="${task.getName()}"></td>
       <td th:text="${task.getDeadlineDate()}"></td>
-      <td th:text="${task.isCompleted()}"></td>
+      <td th:text="${task.isCompleted() ? 'YES' : 'NO'}"></td>
+      <td th:text="${task.getAuthor().getEmail() + ' / ' + task.getAuthor().getFullName()}"></td>
       <td>
           <a th:href="@{'/details/' + ${task.getId()}}" class="btn btn-success">DETAILS</a>
       </td>

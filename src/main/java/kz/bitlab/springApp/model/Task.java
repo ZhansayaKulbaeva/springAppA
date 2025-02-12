@@ -15,4 +15,5 @@ public class Task {
     private String description;
     private String deadlineDate;
     private boolean isCompleted;
+    private User author;
 }
